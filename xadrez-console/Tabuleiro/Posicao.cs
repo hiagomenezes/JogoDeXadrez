@@ -19,7 +19,9 @@ namespace tabuleiro
 
         public override string ToString()
         {
-            return linha + " , " + coluna;
+            return linha 
+                + ", "
+                + coluna;
         }
     }
 }
