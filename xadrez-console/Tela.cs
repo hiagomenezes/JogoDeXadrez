@@ -17,10 +17,18 @@ namespace xadrez_console
             imprimirPecasCapituras(partida);
             Console.WriteLine();
             Console.WriteLine("Turno: " + partida.turno);
-            Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
+            if (!partida.terminada)
+            {
+                Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
+            }
             if (partida.xeque)
             {
-                Console.WriteLine("Xeque");
+                Console.WriteLine("XEQUE!");
+            }
+            else
+            {
+                Console.WriteLine("XEQUEMATE!");
+                Console.WriteLine("Vencedor" + partida.jogadorAtual);
             }
         }
 
@@ -28,12 +36,12 @@ namespace xadrez_console
         {
             Console.WriteLine("Peças capituradas:");
             Console.Write("Brancas");
-            imprimirConjunto(partida.pecasCapituradas(Cor.Branca));
+            imprimirConjunto(partida.pecasCapturadas(Cor.Branca));
             Console.WriteLine();
             Console.Write("Pretas");
             ConsoleColor aux = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
-            imprimirConjunto(partida.pecasCapituradas(Cor.Preta));
+            imprimirConjunto(partida.pecasCapturadas(Cor.Preta));
             Console.ForegroundColor = aux;
             Console.WriteLine();
 

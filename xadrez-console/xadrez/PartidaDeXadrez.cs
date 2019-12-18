@@ -68,8 +68,16 @@ namespace xadrez
             {
                 xeque = false;
             }
-            turno++;
-            mudarJogador();
+            if (estaEmXeque(adversaria(jogadorAtual)))
+            {
+                terminada = true;
+            }
+            else
+            {
+                turno++;
+                mudarJogador();
+            }
+            
                 
         }
 
@@ -89,7 +97,7 @@ namespace xadrez
             }
         }
 
-        public HashSet<Peca> pecasCapituradas(Cor cor)
+        public HashSet<Peca> pecasCapturadas(Cor cor)
         {
             HashSet<Peca> aux = new HashSet<Peca>();
             foreach (Peca x in capturadas)
@@ -112,7 +120,7 @@ namespace xadrez
                     aux.Add(x);
                 }
             }
-            aux.ExceptWith(pecasCapituradas(cor));
+            aux.ExceptWith(pecasCapturadas(cor));
             return aux;
         }
         private Cor adversaria(Cor cor)
@@ -126,7 +134,6 @@ namespace xadrez
                 return Cor.Branca;
             }
         }
-
         private Peca rei (Cor cor)
         {
             foreach (Peca x in pecasEmJogo(cor))
@@ -155,6 +162,40 @@ namespace xadrez
                 }
             }
             return false;
+        }
+
+        public bool testeXequeMate(Cor cor)
+        {
+            if (!estaEmXeque(cor))
+            {
+                return false;
+            }
+            foreach (Peca x in pecasEmJogo(cor))
+            {
+                bool[,] mat = x.movimentosPossiveis();
+                for (int i = 0; i < tab.linhas; i++)
+                {
+                    for (int j = 0; j < tab.colunas; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Posicao origem = x.posicao;
+                            Posicao destino = new Posicao(i, j);
+                            Peca pecaCapturada = executarMovimento(origem, destino);
+                            bool testeXeque = estaEmXeque(cor);
+                            desFazerMovimento(origem, destino, pecaCapturada);
+                            if (!testeXeque)
+                            {
+                                return false;
+
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            return true;
         }
 
         public void validarPosicaoDeDestino(Posicao origem , Posicao destino)
