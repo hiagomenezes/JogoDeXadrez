@@ -66,12 +66,10 @@ namespace xadrez_console
             }
             else
             {
-                if (peca.cor == Cor.Branco)
+                if (peca.cor == Cor.Branca)
                 {
                     Console.Write(peca);
                 }
-
-
                 else
                 {
                     ConsoleColor aux = Console.ForegroundColor;
